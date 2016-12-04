@@ -1,0 +1,10 @@
+halite
+
+*.pyc
+
+.venv/
+.idea/
+
+*.hlt
+*.log
+
