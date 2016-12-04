@@ -8,3 +8,13 @@ halite
 *.hlt
 *.log
 
+viewer/game_data.js
+
+HaliteEnvironment-Source/
+HaliteEnvironment-Source.zip
+
+*.map
+
+build/
+build.zip
+
