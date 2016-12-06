@@ -89,8 +89,6 @@ class OverkillBot(BaseTimedBot):
                 move.vector = frame.compute_move_along(move.cell, vector)
                 return # all move objects are changed by reference and are already in the move set
 
-        frame.moves.add(move)
-
     async def calculate_moves(self, frame):
         """
         :param Frame frame:
