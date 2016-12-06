@@ -1,22 +1,33 @@
 
 class Army(frozenset):
 
+    _strength = None
+
     def __add__(self, other):
         if isinstance(other, self.__class__):
             return self.__class__(self | other)
         else:
             return self.__class__(self | {other})
 
+    def __sub__(self, other):
+        if isinstance(other, (self.__class__, set, frozenset)):
+            return self.__class__(super(Army, self).__sub__(other))
+        else:
+            return self.__class__(super(Army, self).__sub__({other}))
+
     def __repr__(self):
         return super(Army, self).__repr__()[:-1] + " #{} @{})".format(len(self), self.strength)
 
     @property
     def strength(self):
-        return sum(e.strength for e in self)
+        if self._strength is None:
+            self._strength = sum(e.strength for e in self)
+        return self._strength
+
 
 class BaseUnit:
 
-    NEUTRAL = 0
+    NEUTRAL = {0, '0'}
 
     player_id = 0 # type: int
     cell = None # type: tuple[int, int]
@@ -41,7 +52,7 @@ class BaseUnit:
 
     @property
     def is_neutral(self):
-        return self.player_id == self.NEUTRAL
+        return self.player_id in self.NEUTRAL
 
     @classmethod
     def get_by_cell(cls, cell, frame, **extra_data):
@@ -55,7 +66,8 @@ class BaseUnit:
 
 class Enemy(BaseUnit):
 
-    guard_vectors = None # type: defaultdict[tuple[int,int],set[tuple[int,int]]]
+    guard_vectors = None # type: set[tuple[int,int]]
+    guard_cells = None # type: set[tuple[int,int]]
 
 
 class Battalion(BaseUnit):
