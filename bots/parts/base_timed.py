@@ -95,9 +95,9 @@ class BaseTimedBot(HLTAsyncCommMixin, BaseBot, StateParams):
 
         # this completes INIT window
         await ctx.send(self.name)
+        frame = await self.sync_latest_frame()
 
         while True:
-
             try:
                 await asyncio.wait_for(
                     self.calculate_moves(frame),
